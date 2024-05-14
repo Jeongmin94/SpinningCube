@@ -1,24 +1,5 @@
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
-#ifndef _WIN32
-#include <unistd.h>
-#else
-#include <windows.h>
-void usleep(__int64 usec)
-{
-    HANDLE timer;
-    LARGE_INTEGER ft;
-
-    ft.QuadPart = -(10 * usec); // Convert to 100 nanosecond interval, negative value indicates relative time
-
-    timer = CreateWaitableTimer(NULL, TRUE, NULL);
-    SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0);
-    WaitForSingleObject(timer, INFINITE);
-    CloseHandle(timer);
-}
-#endif
+#include "pch.h"
+#include "utils/math.h"
 
 using namespace std;
 
@@ -41,6 +22,7 @@ float x, y, z;
 float ooz;
 int xp, yp;
 int idx;
+
 
 float calculateX(int i, int j, int k)
 {
@@ -68,7 +50,7 @@ void calculateForSurface(float cubeX, float cubeY, float cubeZ, int ch)
 
     ooz = 1 / z;
 
-    float ratio = width / height;
+    float ratio = 2.0f;
 
     xp = (int)(width / 2 + horizontalOffset + K1 * ooz * x * ratio);
     yp = (int)(height / 2 + K1 * ooz * y);
@@ -86,6 +68,9 @@ void calculateForSurface(float cubeX, float cubeY, float cubeZ, int ch)
 
 int main()
 {
+    MathTest mt;
+    mt.print();
+
     printf("\x1b[2J");
     while (1)
     {
@@ -99,7 +84,6 @@ int main()
             for (float cubeY = -cubeWidth; cubeY < cubeWidth;
                  cubeY += incrementSpeed)
             {
-                // cout << cubeX << ' ' << cubeY << ' ' << -cubeWidth << endl;
                 calculateForSurface(cubeX, cubeY, -cubeWidth, '@');
                 calculateForSurface(cubeWidth, cubeY, cubeX, '$');
                 calculateForSurface(-cubeWidth, cubeY, -cubeX, '~');
