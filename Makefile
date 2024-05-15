@@ -1,11 +1,11 @@
 # C++ compiler
 CC = g++
 # C++ compiler options
-CXXFLAGS = -Wall -O2
+CXXFLAGS = -Wall -O2 -Iinclude/SDL2
 # Linker options
-LDFLAGS =
+LDFLAGS = -Lbin/SDL2.dll -lSDL2
 # Header directory
-ICNLUDE = -Iinclude
+ICNLUDE =
 
 SRC_DIR = ./src
 OBJ_DIR = ./obj
