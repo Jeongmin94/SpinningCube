@@ -1,7 +1,7 @@
 #include "pch.h"
 
+#include "utils/timer.h"
 #include "utils/math.h"
-#include "timer.h"
 
 int main()
 {
