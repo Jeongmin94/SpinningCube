@@ -52,4 +52,16 @@ struct Options
 	int d = 1;
 	int screenWidth = 0;
 	int screenHeight = 0;
+
+	int offsetX = 0;
+	int offsetY = 0;
+
+	ColorType colors[6] = {
+		ColorType::RED,
+		ColorType::BLUE,
+		ColorType::DarkBLUE,
+		ColorType::DarkPurple,
+		ColorType::GREEN,
+		ColorType::YELLOW,
+	};
 };

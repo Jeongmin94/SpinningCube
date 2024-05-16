@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Cube.h"
 
-float Cube::incr = 0.1f;
+float Cube::incr = 0.6f;
 
 void Cube::rotate(float angleX, float angleY, float angleZ, vector<pixel>& pixels) const
 {
@@ -9,15 +9,14 @@ void Cube::rotate(float angleX, float angleY, float angleZ, vector<pixel>& pixel
 	{
 		for (float y = -height; y < height; y += incr) {
 
-			calculateSurface(vec3(x, y, -width), angleX, angleY, angleZ, pixels, ColorType::RED, '0');
-			calculateSurface(vec3(x, y, width), angleX, angleY, angleZ, pixels, ColorType::BLUE, '1');
+			calculateSurface(vec3(x, y, -width), angleX, angleY, angleZ, pixels, option.colors[0], '0');
+			calculateSurface(vec3(x, y, width), angleX, angleY, angleZ, pixels, option.colors[1], '1');
 
-			calculateSurface(vec3(width, x, y), angleX, angleY, angleZ, pixels, ColorType::GREEN, '2');
-			calculateSurface(vec3(-width, x, y), angleX, angleY, angleZ, pixels, ColorType::GRAY, '3');
+			calculateSurface(vec3(width, x, y), angleX, angleY, angleZ, pixels, option.colors[2], '2');
+			calculateSurface(vec3(-width, x, y), angleX, angleY, angleZ, pixels, option.colors[3], '3');
 
-			calculateSurface(vec3(x, width, y), angleX, angleY, angleZ, pixels, ColorType::DarkYellow, '4');
-			calculateSurface(vec3(x, -width, y), angleX, angleY, angleZ, pixels, ColorType::DarkPurple, '5');
-
+			calculateSurface(vec3(x, width, y), angleX, angleY, angleZ, pixels, option.colors[4], '4');
+			calculateSurface(vec3(x, -width, y), angleX, angleY, angleZ, pixels, option.colors[5], '5');
 		}
 	}
 }
@@ -41,13 +40,13 @@ void Cube::calculateSurface(const vec3& v, float angleX, float angleY, float ang
 	float depth = 1.0f / (tmp.z + option.distanceFromEye);
 
 	// 콘솔에선 세로가 가로의 두 배
-	int px = (int)(option.screenWidth / 2 + option.scailFactor * tmp.x * depth * 2);
-	int py = (int)(option.screenHeight / 2 + option.scailFactor * tmp.y * depth);
+	int px = (int)(option.screenWidth / 2 + option.scailFactor * tmp.x * depth * 2) + option.offsetX;
+	int py = (int)(option.screenHeight / 2 + option.scailFactor * tmp.y * depth) + option.offsetY;
 
 	int idx = option.screenWidth * py + px;
 
 	if (0 <= idx && idx < option.screenHeight * option.screenWidth) {
-		if (pixels[idx].depth <= depth)
+		if (pixels[idx].depth < depth)
 		{
 			pixels[idx].depth = depth;
 			pixels[idx].color = color;

@@ -6,7 +6,7 @@
 
 #include "Cube.h"
 
-int width = 180;
+int width = 140;
 int height = 40;
 
 float angleX = 0.0f;
@@ -21,7 +21,7 @@ int main()
 
 	Options option;
 	option.d = 1;
-	option.scailFactor = 20.0f;
+	option.scailFactor = 15.0f;
 	option.screenHeight = height;
 	option.screenWidth = width;
 	option.distanceFromEye = 50;
@@ -36,6 +36,13 @@ int main()
 
 	Cube cube0(20, 20, option);
 	cubes.push_back(cube0);
+
+	ColorType colors1[6] = { ColorType::GREEN, ColorType::DarkGray, ColorType::SkyBlue, ColorType::BLUE, ColorType::DarkRed, ColorType::PURPLE };
+	option.offsetX = 20;
+	option.offsetY = 10;
+	for (int i = 0; i < 6; i++) { option.colors[i] = colors1[i]; }
+	Cube cube1(15, 15, option);
+	cubes.push_back(cube1);
 
 	while (true)
 	{
@@ -58,9 +65,9 @@ int main()
 			}
 		}
 
-		angleX += t.dt() * 20.0f;
-		angleY += t.dt() * 50.0f;
-		angleZ += t.dt() * 100.0f;
+		angleX += t.dt() * 10.0f;
+		angleY += t.dt() * 20.0f;
+		angleZ += t.dt() * 30.0f;
 	}
 
 	return 0;
