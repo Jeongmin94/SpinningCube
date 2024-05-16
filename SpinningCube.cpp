@@ -1,20 +1,67 @@
-﻿// SpinningCube.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+﻿#pragma once
 
-#include <iostream>
+#include "pch.h"
+#include "timer.h"
+#include "util.h"
+
+#include "Cube.h"
+
+int width = 180;
+int height = 40;
+
+float angleX = 0.0f;
+float angleY = 0.0f;
+float angleZ = 0.0f;
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	char buf[256];
+	sprintf_s(buf, "mode con: lines=%d cols=%d", height+1, width+1);
+	system(buf);
+
+	Options option;
+	option.d = 1;
+	option.scailFactor = 20.0f;
+	option.screenHeight = height;
+	option.screenWidth = width;
+	option.distanceFromEye = 50;
+
+	CONSOLE_CURSOR_INFO info{ 1, 0 };
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+
+	Timer t;
+	int maxSize = width * height;
+
+	vector<Cube> cubes;
+
+	Cube cube0(20, 20, option);
+	cubes.push_back(cube0);
+
+	while (true)
+	{
+		t.update();
+
+		vector<pixel> pixels(maxSize);
+
+		for (int i = 0; i < cubes.size(); i++)
+			cubes[i].rotate(angleX, angleY, angleZ, pixels);
+
+		COORD coord{ 0, 0 };
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+		for (int i = 0; i < height * width; i++) {
+			setTextColor((int)pixels[i].color);
+			if (i % width == 0) {
+				cout << '\n';
+			}
+			else {
+				cout << pixels[i].c;
+			}
+		}
+
+		angleX += t.dt() * 20.0f;
+		angleY += t.dt() * 50.0f;
+		angleZ += t.dt() * 100.0f;
+	}
+
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
