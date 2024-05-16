@@ -3,7 +3,7 @@
 C++ 콘솔 애플리케이션으로 구현한 3차원 공간에서 회전하는 큐브
 
 > 참고: https://youtu.be/p09i_hoFdd0?si=vdAlAoYoUWH4wL_L
-> github: https://github.com/servetgulnaroglu/cube.c
+github: https://github.com/servetgulnaroglu/cube.c
 
 # 실행 환경
 
